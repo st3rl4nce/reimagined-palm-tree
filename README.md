@@ -1,6 +1,6 @@
 <!-- PROJECT LOGO -->
 <br />
-  <h3 align="center">Static Checker for C</h3>
+  <h1 align="center">Static Checker for C</h1>
 
   <p align="center">
     A simple static checker for C, created as a part of course project for the course CSN-352 in IIT Roorkee
@@ -23,15 +23,10 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -69,8 +64,8 @@ Install the required packages by running(assuming you have python installed)
   ```
 <br>PS: to install [pip](https://pypi.org/project/pip/)
 
-<!-- USAGE EXAMPLES -->
-## Usage
+<!-- USAGE -->
+### Usage
 * Run<br>
 ```
 python staticChecker.py
