@@ -1,10 +1,5 @@
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
-  <a href="https://upload.wikimedia.org/wikipedia/commons/1/18/C_Programming_Language.svg">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
   <h3 align="center">Static Checker for C</h3>
 
   <p align="center">
