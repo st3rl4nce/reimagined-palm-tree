@@ -154,6 +154,34 @@ def get_type_of_function(c_program, fxn_name):
                 return node.decl.type.type.type.names[0]
     return None
 
+# function to check type mismatches in a function call
+def check_type_mismatches_in_fxn_call(c_program, fxn_name):
+    ast = pycparser.parse_file(c_program, use_cpp=False)
+    for node in ast.ext:
+        # if function call and the name matches, check for type mismatches
+        if isinstance(node, pycparser.c_ast.FuncCall) and node.name.name == fxn_name:
+            # get the type of the function
+            fxn_type = get_type_of_function(c_program, fxn_name)
+            # get the type of the arguments
+            arg_types = []
+            for arg in node.args.exprs:
+                if isinstance(arg, pycparser.c_ast.ID):
+                    arg_type = get_type_of_variable(c_program, arg)
+                elif isinstance(arg, pycparser.c_ast.Constant):
+                    arg_type = type(arg.value).__name__
+                elif isinstance(arg, pycparser.c_ast.FuncCall):
+                    arg_type = get_type_of_function(c_program, arg.name.name)
+                elif isinstance(arg, pycparser.c_ast.BinaryOp):
+                    arg_type = get_type_of_variable(c_program, arg.left)
+                elif isinstance(arg, pycparser.c_ast.ArrayRef):
+                    arg_type = get_type_of_array(c_program, arg.name)
+                arg_types.append(arg_type)
+            # check for type mismatches
+            for arg_type in arg_types:
+                if not check_type_compatibility(c_program, fxn_type, arg_type):
+                    print("Type mismatch in function call %s" % fxn_name)
+                    return False
+
 # function to detect type mismatches
 def check_type_mismatches(c_program):
     ast = pycparser.parse_file(c_program, use_cpp=False)
@@ -185,6 +213,9 @@ def check_type_mismatches(c_program):
                     rhs_type = get_type_of_array(c_program, line.rvalue.name)
                 elif isinstance(line.rvalue, pycparser.c_ast.Constant):
                     rhs_type = line.rvalue.type
+                elif isinstance(line.rvalue, pycparser.c_ast.FuncCall):
+                    check_type_mismatches_in_fxn_call(c_program, line.rvalue.name.name)
+                    rhs_type = get_type_of_function(c_program, line.rvalue.name.name)
                 else:
                     rhs_type = get_type_of_variable(c_program, line.rvalue)
                 # if the types are not the same, print error
@@ -201,6 +232,9 @@ def check_type_mismatches(c_program):
                         continue
                     elif isinstance(line.init, pycparser.c_ast.UnaryOp):
                         init_type = 'int'
+                    elif isinstance(line.init, pycparser.c_ast.FuncCall):
+                        check_type_mismatches_in_fxn_call(c_program, line.init.name.name)
+                        init_type = get_type_of_function(c_program, line.init.name.name)
                     else:
                         init_type = line.init.type
                     # if the types are not the same, print error
@@ -225,3 +259,6 @@ def check_type_mismatches(c_program):
                 # if the types are not the same, print error
                 if func_type != return_type:
                     print("Type mismatch on line %s: function return type: %s, return value type: %s" % (line.coord, func_type, return_type))
+            # if function call, check for type mismatch
+            elif isinstance(line, pycparser.c_ast.FuncCall):
+                check_type_mismatches_in_fxn_call(c_program, line.name.name)

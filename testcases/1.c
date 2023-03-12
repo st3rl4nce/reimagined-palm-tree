@@ -13,6 +13,8 @@ int main(){
     a = 5/0;
     int arr[10];
     arr[10] = 'k';
+    count('b');
+    int ret = count(1234567890);
     printf("%d",count(1234567890));
     return 0;
 }

@@ -51,8 +51,8 @@ class ArrayRefVisitor(c_ast.NodeVisitor):
         if index_value >= array_size:
             print(f"Error: Array index out of bounds in {array_scope.file} at {node.coord}. Array '{array_name}' of size {array_size} accessed with index {index_value}.")
 
-def check_array_out_of_bounds(file_path):
-    ast = parse_file(file_path, use_cpp=True)
+def check_array_out_of_bounds(filename):
+    ast = parse_file(filename, use_cpp=True)
     array_visitor = ArrayVisitor()
     array_visitor.visit(ast)
 

@@ -26,6 +26,11 @@ def pre_process(filename):
     return new_filename
 
 def delete_preprocessed_dir(filename):
+    # delete parser.out, parsetab.py files
+    os.chdir('src')
+    os.system('rm -rf parsetab.py')
+    os.system('rm -rf parser.out')
     directory = filename[:filename.rfind('/')+1]
+    directory = '../'+directory
     os.chdir(directory)
     os.system('rm -rf preprocessed')

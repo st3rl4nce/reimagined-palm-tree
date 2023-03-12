@@ -27,6 +27,8 @@ class DivByZeroVisitor(c_ast.NodeVisitor):
             elif isinstance(node.right, c_ast.ID):
                 var_name = node.right.name
                 var_decl = self.get_variable_declaration(node, var_name)
+                # get the value of the variable
+                var_value = node.right.value
                 if var_decl is not None:
                     if isinstance(var_decl.type, c_ast.PtrDecl):
                         print("Possible division by zero error at line", node.coord, "(indirect division by zero through pointer)")
