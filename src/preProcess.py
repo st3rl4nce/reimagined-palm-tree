@@ -2,7 +2,7 @@ import re, os
 
 # Define regular expressions for comments and include statements
 comment_re = re.compile(r'(/\*.*?\*/|//.*?$)', re.DOTALL | re.MULTILINE)
-include_re = re.compile(r'^#include\s.*?$\n', re.MULTILINE)
+include_re = re.compile(r'^#include\s*.*?$\n', re.MULTILINE)
 
 def pre_process(filename):
     # Read in C program from file

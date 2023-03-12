@@ -33,14 +33,9 @@ class ArrayRefVisitor(c_ast.NodeVisitor):
         return None
     def visit_ArrayRef(self, node):
         array_name = node.name.name
-        # array index can be a constant or a variable
+        # array index can be a constant or a variable, but we can't handle the latter statically
         if isinstance(node.subscript, c_ast.Constant):
             index_value = node.subscript.value
-        elif isinstance(node.subscript, c_ast.ID):
-            index_value = node.subscript.name
-            # calculate the value of the variable at the given instance
-            index_value = self.get_variable_value(node, index_value)
-
         else:
             return
 
@@ -49,7 +44,7 @@ class ArrayRefVisitor(c_ast.NodeVisitor):
         index_value = int(index_value)
         array_size = int(array_size)
         if index_value >= array_size:
-            print(f"Error: Array index out of bounds in {array_scope.file} at {node.coord}. Array '{array_name}' of size {array_size} accessed with index {index_value}.")
+            print(f"Array index out of bounds in {array_scope.file} at {node.coord}. Array '{array_name}' of size {array_size} accessed with index {index_value}.")
 
 def check_array_out_of_bounds(filename):
     ast = parse_file(filename, use_cpp=True)
