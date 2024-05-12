@@ -81,8 +81,6 @@ python staticChecker.py
 <!-- CONTACT -->
 ## Contact
 
-Thanmai Sahith Asavadi - asavadi_ts@cs.iitr.ac.in
-
 Project Link: [https://github.com/st3rl4nce/reimagined-palm-tree](https://github.com/st3rl4nce/reimagined-palm-tree)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
